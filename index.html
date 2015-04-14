@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+        <script type="text/javascript" src="js/zxcvbn.js"></script>
+        <script type="text/javascript" src="js/zxcvbn_bootstrap3.js"></script>
+        <script type="text/javascript" src="js/pGenerator.jquery.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <h1>zxcvbn password strenght!</h1>
+            <hr>
+            <div class="form-group">
+                <label for="pwd">Type your password:</label>
+                <input type="text" class="form-control" id="pwd" value="" name="decrypt">
+                <span>Password Strength:</span>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0;">
+                    </div>
+                </div>
+                <button type="button" id="GeneratePwd" class="btn btn-default">Generate Password</button> 
+                <p id="demo"></p>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                //PassStrength 
+                checkPass();
+                $("#pwd").on('keyup', function () {
+                    checkPass();
+                });
+                var edit = '';
+                $("form").submit(function () {
+                    if (edit == '') {
+                        if (checkPass() == false) {
+                            $("#pwd").parent('div').addClass('has-error');
+                            return checkPass();
+                        }
+                    }
+                });
+
+                //PassGenerator
+                $('#GeneratePwd').pGenerator({
+                    'bind': 'click',
+                    'passwordLength': 9,
+                    'uppercase': true,
+                    'lowercase': true,
+                    'numbers': true,
+                    'specialChars': false,
+                    'onPasswordGenerated': function (generatedPassword) {
+                        $("#pwd").val(generatedPassword);
+                        checkPass();
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
+
